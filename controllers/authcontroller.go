@@ -6,10 +6,12 @@ import (
 	"github.com/flame/view"
 )
 
-type AuthController struct {
-
+//routemeta: {"method":"get", "route":"/auth/:id", "middleware":"auth"}
+func Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	view.Render("auth.html", nil)
 }
 
-func (AuthController) Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	view.Render("auth.html", nil)
+//routemeta: {"method":"get", "route":"/"}
+func ShowRoot(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	view.Render("welcome.html", nil)
 }

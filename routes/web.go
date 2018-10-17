@@ -1,12 +1,11 @@
 package routes
 
 import (
-	. "github.com/flame/routes" 
-	. "github.com/app/controllers"
-	. "github.com/app/middleware" 
+	flameroutes "github.com/flame/routes"
+	"github.com/app/controllers"
 )
 
-var Routes = []Route{
-	Get().Define("/", WelcomeController{}),
-	Get().Define("/auth/mitch", AuthController{}).Middleware(AuthMiddleware),
+var Routes = []flameroutes.Route{
+ 	flameroutes.Get().Define("/auth/:id", controllers.Show),
+	flameroutes.Get().Define("/", controllers.ShowRoot),
 }

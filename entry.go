@@ -5,6 +5,8 @@ import (
     "github.com/joho/godotenv"
 )
 
+//go:generate go run gen.go
+
 func main() {
     err := godotenv.Load()
     if err != nil {
