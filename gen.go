@@ -8,18 +8,18 @@ package main
 
 import (
 	"bufio"
-	"os"
-	"io/ioutil"
-	"log" 
-	"strings"
 	"encoding/json"
+	"io/ioutil"
+	"log"
+	"os"
+	"strings"
 )
 
 type GenRoute struct {
-	Method string `json:"method"`
-	Route string `json:"route"`
+	Method     string `json:"method"`
+	Route      string `json:"route"`
 	Middleware string `json:"middleware"`
-	Function string 
+	Function   string
 }
 
 func main() {
@@ -27,35 +27,34 @@ func main() {
 	path := d + "/controllers"
 
 	files, err := ioutil.ReadDir(path)
-    if err != nil {
-        log.Fatal(err)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	os.Remove(d + "/routes/web.go")
-	
+
 	createPath := d + "/routes/web.go"
 	routeFile, _ := os.Create(createPath)
 	defer routeFile.Close()
 	w := bufio.NewWriter(routeFile)
 	defer w.Flush()
 	var middlewareString string
-	finalStringToWrite := "package routes\n\nimport (\n\tflameroutes \"github.com/flame/routes\"\n\t\"github.com/app/controllers\"\n" + middlewareString + ")\n\nvar Routes = []flameroutes.Route{\n "
-
+	finalStringToWrite := "package routes\n\nimport (\n\tflameroutes \"github.com/mitchdennett/flameframework/routes\"\n\t\"github.com/mitchdennett/flameproject/controllers\"\n" + middlewareString + ")\n\nvar Routes = []flameroutes.Route{\n "
 
 	//Some great spaghetti code. This really needs to be refactored.
-    for _, f := range files {
+	for _, f := range files {
 		if !f.IsDir() {
 			f, _ := os.Open(path + "/" + f.Name())
 
 			scanner := bufio.NewScanner(f)
-			scanner.Split(bufio.ScanLines) 
-			
+			scanner.Split(bufio.ScanLines)
+
 			for scanner.Scan() {
 				line := scanner.Text()
-				
+
 				if strings.HasPrefix(line, "//") {
 					slice := strings.Split(line, "routemeta:")
-					
+
 					if len(slice) > 1 {
 						var route GenRoute
 						if err := json.Unmarshal([]byte(strings.Trim(slice[1], " ")), &route); err != nil {
@@ -72,7 +71,7 @@ func main() {
 
 									// Need to implement middleware
 									// if route.Middleware != "" {
-									// 	middlewareString = "\t\"github.com/app/middleware\"\n"
+									// 	middlewareString = "\t\"github.com/mitchdennett/flameproject/middleware\"\n"
 									// }
 
 									stringToWrite := generateRoute(route)
@@ -81,15 +80,15 @@ func main() {
 								}
 							}
 						}
-						
+
 					}
 				}
 			}
-			
+
 			f.Close()
 		}
 	}
-	
+
 	w.WriteString(finalStringToWrite + "}")
 }
 

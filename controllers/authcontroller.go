@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"net/http"
+
 	"github.com/julienschmidt/httprouter"
-	"github.com/flame/view"
+	"github.com/mitchdennett/flameframework/view"
 )
 
 //routemeta: {"method":"get", "route":"/auth/:id", "middleware":"auth"}

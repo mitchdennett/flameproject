@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"net/http"
+
 	"github.com/julienschmidt/httprouter"
-	"github.com/flame/view"
-	"github.com/flame/managers/mail"
+	"github.com/mitchdennett/flameframework/managers/mail"
+	"github.com/mitchdennett/flameframework/view"
 )
 
 type WelcomeController struct {
-
 }
 
 func (WelcomeController) Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
