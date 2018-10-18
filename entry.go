@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"github.com/mitchdennett/flameframework/server"
+	_ "github.com/mitchdennett/flameproject/controllers"
 )
 
 //go:generate go run gen.go

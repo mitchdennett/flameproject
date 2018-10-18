@@ -5,14 +5,17 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/mitchdennett/flameframework/view"
+	"github.com/mitchdennett/flameframework/routes"
 )
 
-//routemeta: {"method":"get", "route":"/auth/:id", "middleware":"auth"}
-func Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	view.Render("auth.html", nil)
-}
+func init(){
+	routes.RouteFilePrefix("/auth")
 
-//routemeta: {"method":"get", "route":"/"}
-func ShowRoot(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	view.Render("welcome.html", nil)
+	routes.Get("/", "AuthMiddleware", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		view.Render("auth.html", nil)
+	})
+
+	routes.Get("/mitch", "AuthMiddleware", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		view.Render("auth.html", nil)
+	})
 }

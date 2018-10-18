@@ -4,14 +4,12 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/mitchdennett/flameframework/managers/mail"
 	"github.com/mitchdennett/flameframework/view"
+	"github.com/mitchdennett/flameframework/routes"
 )
 
-type WelcomeController struct {
-}
-
-func (WelcomeController) Show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	go mail.Compose().To("mitchelldennett2@gmail.com").Subject("Test Email").Send("This message")
-	view.Render("welcome.html", nil)
+func init(){
+	routes.Get("/", "AuthMiddleware", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		view.Render("welcome.html", nil)
+	})
 }
